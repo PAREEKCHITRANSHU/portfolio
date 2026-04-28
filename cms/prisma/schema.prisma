@@ -1,0 +1,104 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model case_studies {
+  id               String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  slug             String    @unique @db.VarChar(255)
+  title            String    @db.VarChar(500)
+  subtitle         String?   @db.VarChar(500)
+  cover_image_url  String?
+  tags             String[]
+  status           String    @db.VarChar(50)
+  published_at     DateTime?
+  featured         Boolean   @default(false)
+  meta_description String?
+  blocks           Json
+  created_at       DateTime  @default(now())
+  updated_at       DateTime  @default(now()) @updatedAt
+}
+
+model projects {
+  id              String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  slug            String    @unique @db.VarChar(255)
+  title           String    @db.VarChar(500)
+  description     String?
+  cover_image_url String?
+  type            String?   @db.VarChar(50)
+  tags            String[]
+  live_url        String?
+  github_url      String?
+  status          String    @db.VarChar(50)
+  published_at    DateTime?
+  featured        Boolean   @default(false)
+  blocks          Json?
+  created_at      DateTime  @default(now())
+  updated_at      DateTime  @default(now()) @updatedAt
+}
+
+model blogs {
+  id              String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  slug            String    @unique @db.VarChar(255)
+  title           String    @db.VarChar(500)
+  excerpt         String?
+  cover_image_url String?
+  tags            String[]
+  reading_time    Int?
+  status          String    @db.VarChar(50)
+  published_at    DateTime?
+  blocks          Json
+  created_at      DateTime  @default(now())
+  updated_at      DateTime  @default(now()) @updatedAt
+}
+
+model market_research {
+  id              String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  slug            String    @unique @db.VarChar(255)
+  title           String    @db.VarChar(500)
+  subtitle        String?
+  cover_image_url String?
+  tags            String[]
+  status          String    @db.VarChar(50)
+  published_at    DateTime?
+  blocks          Json
+  created_at      DateTime  @default(now())
+  updated_at      DateTime  @default(now()) @updatedAt
+}
+
+model experience {
+  id          String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  company     String    @db.VarChar(255)
+  role        String    @db.VarChar(255)
+  description String?
+  start_date  DateTime  @db.Date
+  end_date    DateTime? @db.Date
+  is_current  Boolean   @default(false)
+  tags        String[]
+  logo_url    String?
+  order_index Int?
+  visible     Boolean   @default(true)
+  created_at  DateTime  @default(now())
+}
+
+model skills {
+  id          String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name        String   @db.VarChar(255)
+  category    String?  @db.VarChar(255)
+  icon_url    String?
+  proficiency Int?
+  order_index Int?
+  visible     Boolean  @default(true)
+  created_at  DateTime @default(now())
+}
+
+model site_config {
+  id    String @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  key   String @unique @db.VarChar(255)
+  value Json
+}
